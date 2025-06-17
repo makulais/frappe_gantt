@@ -33,11 +33,31 @@ export default class Gantt {
         }
 
         // get the SVGElement
-        if (element instanceof HTMLElement) {
-            wrapper_element = element;
-            svg_element = element.querySelector('svg');
-        } else if (element instanceof SVGElement) {
-            svg_element = element;
+        // if (element instanceof HTMLElement) {
+        //     wrapper_element = element;
+        //     svg_element = element.querySelector('svg');
+        // } else if (element instanceof SVGElement) {
+        //     svg_element = element;
+        // } else {
+        //     throw new TypeError(
+        //         'Frappe Gantt only supports usage of a string CSS selector,' +
+        //             " HTML DOM element or SVG DOM element for the 'element' parameter",
+        //     );
+        // }
+
+        // adds support for window.popout, react portal, ...
+        function isDOMElement(el) {
+            return el?.nodeType === 1 && typeof el.querySelector === 'function';
+        }
+
+        if (isDOMElement(element)) {
+            // Detect whether it's a wrapper or SVG root
+            if (element.tagName?.toLowerCase() === 'svg') {
+                svg_element = element;
+            } else {
+                wrapper_element = element;
+                svg_element = element.querySelector('svg');
+            }
         } else {
             throw new TypeError(
                 'Frappe Gantt only supports usage of a string CSS selector,' +
