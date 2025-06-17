@@ -95,7 +95,9 @@ $.off = (element, event, handler) => {
 
 $.bind = (element, event, callback) => {
     event.split(/\s+/).forEach(function (event) {
-        element.addEventListener(event, callback);
+        // Add passive option for touch events to improve performance
+        const isTouch = event.startsWith('touch');
+        element.addEventListener(event, callback, { passive: isTouch });
     });
 };
 
