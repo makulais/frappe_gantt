@@ -1330,7 +1330,11 @@ export default class Gantt {
             });
         });
 
-        document.addEventListener('mouseup', () => {
+        // Use the document from the SVG element's ownerDocument
+        // This ensures we're using the correct document in popout windows
+        const doc = this.$svg.ownerDocument;
+        
+        doc.addEventListener('mouseup', () => {
             is_dragging = false;
             is_resizing_left = false;
             is_resizing_right = false;
@@ -1355,6 +1359,7 @@ export default class Gantt {
 
     bind_bar_progress() {
         let x_on_start = 0;
+        let y_on_start = 0;
         let is_resizing = null;
         let bar = null;
         let $bar_progress = null;

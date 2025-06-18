@@ -103,6 +103,8 @@ $.bind = (element, event, callback) => {
 
 $.delegate = (element, event, selector, callback) => {
     element.addEventListener(event, function (e) {
+        // Use the element's ownerDocument to find the closest element
+        // This ensures we're using the correct document in popout windows
         const delegatedTarget = e.target.closest(selector);
         if (delegatedTarget) {
             e.delegatedTarget = delegatedTarget;
